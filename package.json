@@ -1,0 +1,61 @@
+{
+  "name": "your-lib-name",
+  "version": "1.0.0",
+  "description": "Your lib description",
+  "homepage": "https://github.com/avesheva/vue3-fixed-size-accordion",
+  "author": "Your Name <yourmail@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "javascript",
+    "typescript"
+  ],
+  "private": false,
+  "main": "dist/your-lib-name.umd.js",
+  "module": "dist/your-lib-name.es.js",
+  "exports": {
+    "import": "./dist/your-lib-name.es.js",
+    "require": "./dist/your-lib-name.umd.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "types": "./dist/fileWithTypes.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vue-tsc --emitDeclarationOnly",
+    "preview": "vite preview",
+    "test": "jest",
+    "lint": "eslint lib src tests --ext .ts,.vue",
+    "prepare": "husky install"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^29.2.3",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "@vitejs/plugin-vue": "^3.2.0",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "@vue/test-utils": "^2.2.4",
+    "@vue/vue3-jest": "^29.2.1",
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-vue": "^9.8.0",
+    "husky": "^8.0.2",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3",
+    "vue": "^3.2.41",
+    "vue-eslint-parser": "^9.1.0",
+    "vue-tsc": "^1.0.9"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.41"
+  }
+}

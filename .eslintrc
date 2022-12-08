@@ -1,0 +1,24 @@
+{
+  "root": true,
+  "parser": "vue-eslint-parser",
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser",
+    "project": "./tsconfig.linter.json"
+  },
+  "rules": {
+    "@typescript-eslint/semi": [2, "never"],
+    "react/jsx-filename-extension": 0,
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0
+  },
+  "extends": [
+    "plugin:vue/strongly-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "@vue/typescript/recommended",
+    "airbnb-typescript"
+  ]
+}
