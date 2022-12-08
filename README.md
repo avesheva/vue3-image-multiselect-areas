@@ -24,6 +24,11 @@ then
 cd vue3-ts-lib-starter
 npm install
 ```
+or
+```
+cd vue3-ts-lib-starter
+yarn install
+```
 
 ## Run
 ```
