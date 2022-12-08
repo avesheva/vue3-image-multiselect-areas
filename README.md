@@ -19,4 +19,13 @@ git clone git@github.com:avesheva/vue3-ts-lib-starter.git
 # HTTPS
 git clone https://github.com/avesheva/vue3-ts-lib-starter.git
 ```
+then
+```
+cd vue3-ts-lib-starter
+npm install
+```
 
+## Run
+```
+npm run dev
+```
