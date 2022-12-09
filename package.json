@@ -2,7 +2,7 @@
   "name": "your-lib-name",
   "version": "1.0.0",
   "description": "Your lib description",
-  "homepage": "https://github.com/avesheva/vue3-fixed-size-accordion",
+  "homepage": "https://github.com/avesheva/vue3-ts-lib-starter",
   "author": "Your Name <yourmail@gmail.com>",
   "license": "MIT",
   "keywords": [
