@@ -1,9 +1,9 @@
 <template>
-  <your-lib-name />
+  <canvas-redactor />
 </template>
 
 <script setup lang="ts">
-import YourLibName from '../lib'
+import CanvasRedactor from '../lib'
 
 </script>
 

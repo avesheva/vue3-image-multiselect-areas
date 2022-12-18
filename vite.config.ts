@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'lib/index.ts'),
-      name: 'your-lib-name',
-      fileName: format => `your-lib-name.${ format }.js`,
+      name: 'vue-canvas-redactor',
+      fileName: format => `vue-canvas-redactor.${ format }.js`,
     },
     rollupOptions: {
       external: ['vue'],

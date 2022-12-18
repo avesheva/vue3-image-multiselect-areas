@@ -1,3 +1,3 @@
-import YourLibName from './YourLibName.vue'
+import YourLibName from './CanvasRedactor.vue'
 
 export default YourLibName

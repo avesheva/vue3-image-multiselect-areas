@@ -13,7 +13,7 @@ Vue 3 boilerplate for library creation with typescript, vite, tests, linter and 
 ## Install
 ```bash
 # SSH
-git clone git@github.com:avesheva/vue3-ts-lib-starter.git
+git clone git@github.com:avesheva/vue3-canvas-redactor.git
 ```
 ```bash
 # HTTPS
