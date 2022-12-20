@@ -9,6 +9,13 @@ export default class CanvasApiClass {
 
   private startY = 0
 
+  private drawnRectangle = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+  }
+
   constructor(canvasElement: HTMLCanvasElement) {
     this.canvasElement = canvasElement
     this.ctx = canvasElement.getContext('2d')
@@ -43,8 +50,18 @@ export default class CanvasApiClass {
 
         this.clearOverlay()
 
+        this.drawnRectangle.x = this.startX
+        this.drawnRectangle.y = this.startY
+        this.drawnRectangle.width = e.offsetX - this.startX
+        this.drawnRectangle.height = e.offsetY - this.startY
+
         this.ctx.beginPath()
-        this.ctx.rect(this.startX, this.startY, e.offsetX - this.startX, e.offsetY - this.startY)
+        this.ctx.rect(
+          this.drawnRectangle.x,
+          this.drawnRectangle.y,
+          this.drawnRectangle.width,
+          this.drawnRectangle.height,
+        )
         this.ctx.stroke()
       })
     }
@@ -54,6 +71,12 @@ export default class CanvasApiClass {
     if (this.isDrawing) {
       this.isDrawing = false
       this.canvasElement.style.cursor = 'default'
+
+      this.canvasElement.dispatchEvent(
+        new CustomEvent('area-selected', { detail: this.drawnRectangle }),
+      )
+
+      this.clearOverlay()
     }
   }
 }
