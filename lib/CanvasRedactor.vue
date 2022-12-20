@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import CanvasApiClass from './utils/CanvasApiClass'
+import SelectedAreaBlock from './components/SelectedAreaBlock.vue'
 
 export interface Props {
   id?: string,
@@ -18,25 +19,16 @@ const props = withDefaults(defineProps<Props>(), {
   borderColor: 'red',
 })
 
-let container: HTMLElement | null = null
+const areasList = ref<unknown[]>([])
 
 const selectedHandler = (e: CustomEvent) => {
-  if (!e.detail || !container) return
+  if (!e.detail) return
 
-  const div = document.createElement('div')
-  div.style.width = `${ e.detail.width }px`
-  div.style.height = `${ e.detail.height }px`
-  div.style.position = 'absolute'
-  div.style.border = `solid ${ props.borderColor } ${ props.borderWidth }px`
-  div.style.top = `${ e.detail.y }px`
-  div.style.left = `${ e.detail.x }px`
-
-  container.appendChild(div)
+  areasList.value.push(e.detail)
 }
 
 onMounted(() => {
   const canvasElement = document.getElementById(props.id) as HTMLCanvasElement
-  container = document.getElementById('redactorContainer')
 
   if (canvasElement) {
     new CanvasApiClass(canvasElement)
@@ -46,15 +38,19 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    id="redactorContainer"
-    style="position: relative"
-  >
+  <div style="position: relative">
     <canvas
       :id="id"
       :width="width"
       :height="height"
       @area-selected="selectedHandler"
+    />
+
+    <selected-area-block
+      v-for="(coordinates, i) of areasList"
+      :key="i"
+      :index="i"
+      :coordinates="coordinates"
     />
   </div>
 </template>
