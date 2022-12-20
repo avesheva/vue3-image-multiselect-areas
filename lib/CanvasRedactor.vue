@@ -24,7 +24,11 @@ const areasList = ref<unknown[]>([])
 const selectedHandler = (e: CustomEvent) => {
   if (!e.detail) return
 
-  areasList.value.push(e.detail)
+  areasList.value.push({ ...e.detail })
+}
+
+const areaDeleteHandler = (index: number) => {
+  areasList.value.splice(index, 1)
 }
 
 onMounted(() => {
@@ -51,6 +55,7 @@ onMounted(() => {
       :key="i"
       :index="i"
       :coordinates="coordinates"
+      @delete="areaDeleteHandler"
     />
   </div>
 </template>
