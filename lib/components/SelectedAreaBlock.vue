@@ -6,16 +6,25 @@
       height: ${coordinates.height}px;
       top: ${coordinates.y}px;
       left: ${coordinates.x}px;
-      border: solid 2px;`
+      border: solid 2px;
+      cursor: grab;
+      `
     "
+    class="selected-area"
+    @mousedown="(e) => { $emit('mousedown', e, index) }"
+    @mouseup="$emit('mouseup', index)"
   >
-    <span>Index: {{ index }}</span>
     <button
       style="position: absolute; right: 0;"
       @click="$emit('delete', index)"
     >
       &times;
     </button>
+
+    <textarea
+      style="position: absolute; top: calc(100% + 5px)"
+      @input="changeHandler"
+    />
   </div>
 </template>
 
@@ -30,7 +39,11 @@ defineProps<{
   },
 }>()
 
-defineEmits(['delete'])
+defineEmits(['delete', 'mousedown', 'mouseup'])
+
+const changeHandler = (e: InputEvent) => {
+  console.log('CHANGE handler :: ', e.target)
+}
 </script>
 
 <style scoped>
