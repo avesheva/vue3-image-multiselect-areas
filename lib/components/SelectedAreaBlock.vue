@@ -6,31 +6,45 @@
       height: ${coordinates.height}px;
       top: ${coordinates.y}px;
       left: ${coordinates.x}px;
-      border: solid 2px;
-      cursor: ${cursor};
+      cursor: ew-resize;
+      border-left: solid 2px;
+      border-right: solid 2px;
       `
     "
-    class="selected-area"
-    @mousedown="(e) => {
-      cursor = 'grabbing'
-      $emit('mousedown', e, index)
-    }"
-    @mouseup="() => {
-      cursor = 'grab'
-      $emit('mouseup', index)
-    }"
   >
-    <button
-      style="position: absolute; right: 0;"
-      @click="$emit('delete', index)"
-    >
-      &times;
-    </button>
+    <div style="height: 2px; background: black; cursor: ns-resize;" />
 
-    <textarea
-      style="position: absolute; top: calc(100% + 5px)"
-      @input="changeHandler"
-    />
+    <div
+      :style="`
+        width: 100%;
+        height: 100%;
+        cursor: ${cursor};
+       `
+      "
+      class="selected-area"
+      @mousedown="(e) => {
+        cursor = 'grabbing'
+        $emit('mousedown', e, index)
+      }"
+      @mouseup="() => {
+        cursor = 'grab'
+        $emit('mouseup', index)
+      }"
+    >
+      <button
+        style="position: absolute; right: 0;"
+        @click="$emit('delete', index)"
+      >
+        &times;
+      </button>
+
+      <textarea
+        style="position: absolute; top: calc(100% + 5px)"
+        @input="changeHandler"
+      />
+    </div>
+
+    <div style="height: 2px; background: black; cursor: ns-resize;" />
   </div>
 </template>
 
