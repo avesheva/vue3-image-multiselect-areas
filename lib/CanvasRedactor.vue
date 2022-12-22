@@ -3,7 +3,7 @@ import { onMounted, ref } from 'vue'
 import CanvasApiClass from './utils/CanvasApiClass'
 import SelectedAreaBlock from './components/SelectedAreaBlock.vue'
 
-export interface Props {
+export interface IProps {
   id?: string,
   width?: number,
   height?: number,
@@ -11,7 +11,14 @@ export interface Props {
   borderColor?: string,
 }
 
-const props = withDefaults(defineProps<Props>(), {
+export interface ISelectedAreaCoordinates {
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+}
+
+const props = withDefaults(defineProps<IProps>(), {
   id: 'vueCanvasRedactor',
   width: 400,
   height: 300,
@@ -19,7 +26,12 @@ const props = withDefaults(defineProps<Props>(), {
   borderColor: 'red',
 })
 
-const areasList = ref<unknown[]>([])
+const areasList = ref<ISelectedAreaCoordinates[]>([])
+const draggingItemStartPos = {
+  offsetX: 0,
+  offsetY: 0,
+}
+let movingAreaIndex: number | null = null
 
 const selectedHandler = (e: CustomEvent) => {
   if (!e.detail) return
@@ -29,6 +41,31 @@ const selectedHandler = (e: CustomEvent) => {
 
 const areaDeleteHandler = (index: number) => {
   areasList.value.splice(index, 1)
+}
+
+const mouseDownHandler = (e: MouseEvent, index: number) => {
+  draggingItemStartPos.offsetY = e.offsetY
+  draggingItemStartPos.offsetX = e.offsetX
+
+  movingAreaIndex = index
+}
+
+const mouseUpHandler = () => {
+  draggingItemStartPos.offsetY = 0
+  draggingItemStartPos.offsetX = 0
+
+  movingAreaIndex = null
+}
+
+const mouseMoveHandler = (e: MouseEvent) => {
+  if (movingAreaIndex !== null) {
+    requestAnimationFrame(() => {
+      if (movingAreaIndex === null) return
+
+      areasList.value[movingAreaIndex].x = e.clientX - draggingItemStartPos.offsetX
+      areasList.value[movingAreaIndex].y = e.clientY - draggingItemStartPos.offsetY
+    })
+  }
 }
 
 onMounted(() => {
@@ -42,7 +79,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div style="position: relative">
+  <div
+    style="position: relative"
+    @mousemove="mouseMoveHandler"
+  >
     <canvas
       :id="id"
       :width="width"
@@ -55,6 +95,8 @@ onMounted(() => {
       :key="i"
       :index="i"
       :coordinates="coordinates"
+      @mousedown="mouseDownHandler"
+      @mouseup="mouseUpHandler"
       @delete="areaDeleteHandler"
     />
   </div>
