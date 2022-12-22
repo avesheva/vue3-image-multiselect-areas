@@ -7,12 +7,18 @@
       top: ${coordinates.y}px;
       left: ${coordinates.x}px;
       border: solid 2px;
-      cursor: grab;
+      cursor: ${cursor};
       `
     "
     class="selected-area"
-    @mousedown="(e) => { $emit('mousedown', e, index) }"
-    @mouseup="$emit('mouseup', index)"
+    @mousedown="(e) => {
+      cursor = 'grabbing'
+      $emit('mousedown', e, index)
+    }"
+    @mouseup="() => {
+      cursor = 'grab'
+      $emit('mouseup', index)
+    }"
   >
     <button
       style="position: absolute; right: 0;"
@@ -29,6 +35,8 @@
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 defineProps<{
   index: number,
   coordinates: {
@@ -41,6 +49,7 @@ defineProps<{
 
 defineEmits(['delete', 'mousedown', 'mouseup'])
 
+const cursor = ref<string>('grab')
 const changeHandler = (e: InputEvent) => {
   console.log('CHANGE handler :: ', e.target)
 }
