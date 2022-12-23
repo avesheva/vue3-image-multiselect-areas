@@ -2,17 +2,16 @@
   <div
     :style="`
       position: absolute;
-      width: ${coordinates.width}px;
-      height: ${coordinates.height}px;
-      top: ${coordinates.y}px;
-      left: ${coordinates.x}px;
+      width: ${ coordinates.width }px;
+      height: ${ coordinates.height }px;
+      top: ${ coordinates.y }px;
+      left: ${ coordinates.x }px;
       cursor: ew-resize;
-      `
-    "
+      `"
   >
     <!-- Top border -->
     <div
-      style="height: 2px; background: black; cursor: ns-resize; top: 0"
+      :style="`height: ${ borderWidth }px; background: ${ borderColor }; cursor: ns-resize; top: 0`"
       @mousedown="(e) => {
         e.stopPropagation()
         $emit('mousedown', e, index, 'resize', 'top')
@@ -24,7 +23,15 @@
     />
     <!-- Left border -->
     <div
-      style="width: 2px; height: 100%; background: black; cursor: ew-resize; position: absolute; left: 0; bottom: 0;"
+      :style="`
+        width: ${ borderWidth }px;
+        background: ${ borderColor };
+        height: 100%;
+        cursor: ew-resize;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      `"
       @mousedown="(e) => {
         e.stopPropagation()
         $emit('mousedown', e, index, 'resize', 'left')
@@ -72,8 +79,15 @@
     </div>
     <!-- Right border -->
     <div
-      style="width: 2px; height: 100%; background: black; cursor: ew-resize; position: absolute; right: 0; bottom: 0;"
-      class="RIGHT_BORDER"
+      :style="`
+        width: ${ borderWidth }px;
+        height: 100%;
+        background: ${ borderColor };
+        cursor: ew-resize;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      `"
       @mousedown="(e) => {
         e.stopPropagation()
         $emit('mousedown', e, index, 'resize', 'right')
@@ -85,7 +99,14 @@
     />
     <!-- Bottom border -->
     <div
-      style="width: 100%; height: 2px; background: black; cursor: ns-resize; position: absolute; bottom: 0"
+      :style="`
+        width: 100%;
+        height: ${ borderWidth }px;
+        background: ${ borderColor };
+        cursor: ns-resize;
+        position: absolute;
+        bottom: 0;
+      `"
       @mousedown="(e) => {
         e.stopPropagation()
         $emit('mousedown', e, index, 'resize', 'down')
@@ -103,6 +124,8 @@ import { ref } from 'vue'
 
 const props = defineProps<{
   index: number,
+  borderWidth: number,
+  borderColor: string,
   coordinates: {
     x: number,
     y: number,
