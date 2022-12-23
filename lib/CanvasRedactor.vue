@@ -98,6 +98,10 @@ const mouseMoveHandler = (e: MouseEvent) => {
   }
 }
 
+const commentHandler = (text: string, index: number) => {
+  console.log('COMMENT handler :: ', index, text)
+}
+
 onMounted(() => {
   const canvasElement = document.getElementById(props.id) as HTMLCanvasElement
 
@@ -134,6 +138,7 @@ onMounted(() => {
       @mousedown="mouseDownHandler"
       @mouseup="mouseUpHandler"
       @delete="areaDeleteHandler"
+      @comment-update="commentHandler"
     />
   </div>
 </template>

@@ -65,8 +65,9 @@
       </button>
 
       <textarea
+        v-model="commentText"
         style="position: absolute; top: calc(100% + 5px)"
-        @input="changeHandler"
+        @input="inputHandler"
       />
     </div>
     <!-- Right border -->
@@ -100,7 +101,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   index: number,
   coordinates: {
     x: number,
@@ -109,13 +110,13 @@ defineProps<{
     height: number,
   },
 }>()
-
-defineEmits(['delete', 'mousedown', 'mouseup'])
+const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'comment-update'])
 
 const cursor = ref<string>('grab')
+const commentText = ref<string>('')
 
-const changeHandler = (e: InputEvent) => {
-  console.log('CHANGE handler :: ', e.target)
+const inputHandler = () => {
+  emit('comment-update',  commentText.value, props.index)
 }
 </script>
 
