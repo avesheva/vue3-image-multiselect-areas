@@ -9,6 +9,7 @@ export interface IProps {
   height?: number,
   borderWidth?: number,
   borderColor?: string,
+  imageUrl: string,
 }
 
 export interface ISelectedAreaCoordinates {
@@ -26,7 +27,7 @@ const props = withDefaults(defineProps<IProps>(), {
   width: 500,
   height: 400,
   borderWidth: 2,
-  borderColor: 'red',
+  borderColor: 'black',
 })
 
 const areasList = ref<ISelectedAreaCoordinates[]>([])
@@ -53,8 +54,6 @@ const areaDeleteHandler = (index: number) => {
 const mouseDownHandler = (e: MouseEvent, index: number, operation: OperationType, direction: DirectionType) => {
   switch (operation) {
     case 'dragging':
-      draggingItemStartPos.offsetY = e.offsetY
-      draggingItemStartPos.offsetX = e.offsetX
       movingAreaIndex = index
       break
     case 'resize':
@@ -76,8 +75,8 @@ const mouseMoveHandler = (e: MouseEvent) => {
     requestAnimationFrame(() => {
       if (movingAreaIndex === null) return
 
-      areasList.value[movingAreaIndex].x = e.clientX - draggingItemStartPos.offsetX
-      areasList.value[movingAreaIndex].y = e.clientY - draggingItemStartPos.offsetY
+      areasList.value[movingAreaIndex].x += e.movementX
+      areasList.value[movingAreaIndex].y += e.movementY
     })
   } else if (resizingAreaIndex !== null) {
     switch (resizingItemStartPos.direction) {
@@ -115,10 +114,10 @@ onMounted(() => {
 <template>
   <div
     :style="`
-      width: ${width}px;
-      height: ${height}px;
+      width: ${ width }px;
+      height: ${ height }px;
       position: relative;
-      background: url('https://cdn.britannica.com/99/143599-050-C3289491/Watermelon.jpg') no-repeat center;
+      background: url('${ imageUrl }') no-repeat center;
       background-size: contain;
     `"
     @mousemove="mouseMoveHandler"
