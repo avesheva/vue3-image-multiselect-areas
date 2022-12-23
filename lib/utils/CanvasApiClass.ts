@@ -9,6 +9,10 @@ export default class CanvasApiClass {
 
   private startY = 0
 
+  private lineColor = 'black'
+
+  private lineWidth = 2
+
   private drawnRectangle = {
     x: 0,
     y: 0,
@@ -16,9 +20,11 @@ export default class CanvasApiClass {
     height: 0,
   }
 
-  constructor(canvasElement: HTMLCanvasElement) {
+  constructor(canvasElement: HTMLCanvasElement, lineWidth: number, lineColor: string) {
     this.canvasElement = canvasElement
     this.ctx = canvasElement.getContext('2d')
+    this.lineWidth = lineWidth
+    this.lineColor = lineColor
 
     if (!this.ctx) throw Error('Can\'t get canvas content!')
 
@@ -31,8 +37,8 @@ export default class CanvasApiClass {
     if (!this.ctx) return
 
     this.ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height)
-    this.ctx.strokeStyle = '#ff0000'
-    this.ctx.lineWidth = 2
+    this.ctx.strokeStyle = this.lineColor
+    this.ctx.lineWidth = this.lineWidth
   }
 
   private mouseDownHandler = (e: MouseEvent) => {
