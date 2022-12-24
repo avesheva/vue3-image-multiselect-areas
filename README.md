@@ -1,3 +1,3 @@
-# vue3-canvas-redactor
+# vue3-image-multiselect-areas
 
-Vue 3 typescript image canvas redactor
+Vue 3 typescript lib, with ability to select area on the image and leave comments.
