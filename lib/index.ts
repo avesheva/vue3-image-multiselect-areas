@@ -1,3 +1,3 @@
-import YourLibName from './CanvasRedactor.vue'
+import ImageSelectArea from './ImageSelectArea.vue'
 
-export default YourLibName
+export default ImageSelectArea
