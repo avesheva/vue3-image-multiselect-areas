@@ -1,8 +1,8 @@
 {
-  "name": "vue3-canvas-redactor",
+  "name": "vue3-image-multiselect-areas",
   "version": "1.0.0",
-  "description": "Vue 3 canvas redactor",
-  "homepage": "https://github.com/avesheva/vue3-canvas-redactor",
+  "description": "Vue 3 typescript lib, with ability to select area on the image and leave comments.",
+  "homepage": "https://github.com/avesheva/vue3-image-multiselect-areas",
   "author": "Shevchenko Andrii <shevchenkoandrii.dev@gmail.com>",
   "license": "MIT",
   "keywords": [
@@ -13,17 +13,17 @@
     "typescript"
   ],
   "private": false,
-  "main": "dist/vue-canvas-redactor.umd.js",
-  "module": "dist/vue-canvas-redactor.es.js",
+  "main": "dist/vue-image-multiselect-areas.umd.js",
+  "module": "dist/vue-image-multiselect-areas.es.js",
   "exports": {
-    "import": "./dist/your-lib-name.es.js",
-    "require": "./dist/your-lib-name.umd.js"
+    "import": "./dist/vue-image-multiselect-areas.es.js",
+    "require": "./dist/vue-image-multiselect-areas.umd.js"
   },
   "files": [
     "dist"
   ],
   "type": "module",
-  "types": "./dist/CanvasRedactor.d.ts",
+  "types": "./dist/ImageSelectArea.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vue-tsc --emitDeclarationOnly",

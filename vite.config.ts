@@ -7,8 +7,8 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'lib/index.ts'),
-      name: 'vue-canvas-redactor',
-      fileName: format => `vue-canvas-redactor.${ format }.js`,
+      name: 'vue-image-multiselect-areas',
+      fileName: format => `vue-image-multiselect-areas.${ format }.js`,
     },
     rollupOptions: {
       external: ['vue'],
