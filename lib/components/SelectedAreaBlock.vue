@@ -6,8 +6,7 @@
       height: ${ coordinates.height }px;
       top: ${ coordinates.y }px;
       left: ${ coordinates.x }px;
-      cursor: ew-resize;
-      `"
+    `"
   >
     <!-- Top border -->
     <div

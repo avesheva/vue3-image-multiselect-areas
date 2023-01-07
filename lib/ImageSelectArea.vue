@@ -31,10 +31,6 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const areasList = ref<ISelectedAreaCoordinates[]>([])
-const draggingItemStartPos = {
-  offsetX: 0,
-  offsetY: 0,
-}
 const resizingItemStartPos = {
   direction: '',
 }
@@ -63,9 +59,6 @@ const mouseDownHandler = (e: MouseEvent, index: number, operation: OperationType
 }
 
 const mouseUpHandler = () => {
-  draggingItemStartPos.offsetY = 0
-  draggingItemStartPos.offsetX = 0
-
   movingAreaIndex = null
   resizingAreaIndex = null
 }
@@ -105,7 +98,7 @@ onMounted(() => {
   const canvasElement = document.getElementById(props.id) as HTMLCanvasElement
 
   if (canvasElement) {
-    new CanvasApiClass(canvasElement)
+    new CanvasApiClass(canvasElement, props.borderWidth, props.borderColor)
   }
 })
 
