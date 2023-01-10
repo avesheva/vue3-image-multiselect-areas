@@ -69,12 +69,23 @@
       >
         &times;
       </button>
-
-      <textarea
-        v-model="commentText"
-        style="position: absolute; top: calc(100% + 5px)"
-        @input="inputHandler"
-      />
+      <div
+        contenteditable
+        style="
+          position: absolute;
+          top: calc(100% + 5px);
+          min-width: 80px;
+          max-width: 200px;
+          background: white;
+          padding: 0.5rem;
+          text-align: left;
+        "
+        autofocus
+        @input="commentText = $event.currentTarget.textContent"
+        @blur="commentFieldBlurHandler"
+      >
+        {{ comment }}
+      </div>
     </div>
     <!-- Right border -->
     <div
@@ -131,14 +142,23 @@ const props = defineProps<{
     width: number,
     height: number,
   },
+  comment?: string
 }>()
-const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'comment-update'])
+const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'comment-update', 'save-data'])
 
 const cursor = ref<string>('grab')
-const commentText = ref<string>('')
+let commentText = '' // eslint-disable-line
 
-const inputHandler = () => {
-  emit('comment-update',  commentText.value, props.index)
+const commentFieldBlurHandler = () => {
+  const data = {
+    index: props.index,
+    coordinates: props.coordinates,
+    comment: commentText,
+    lineWidth: props.borderWidth,
+    color: props.borderColor,
+  }
+
+  emit('save-data', data)
 }
 </script>
 

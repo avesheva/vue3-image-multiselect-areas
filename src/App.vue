@@ -1,9 +1,11 @@
 <template>
   <div>
     <image-select-area
-      image-url="https://www.watermelon.org/wp-content/uploads/2020/07/Frog-Carving-27-1000x1000.jpg"
-      :width="800"
-      :height="700"
+      image-url="https://velogo.com.ua/uploads/images/blog/ROCX-83_2020/IMG_4070.jpg?1572099078425"
+      :width="1200"
+      :height="900"
+      border-color="white"
+      @save-data="saveDataHandler"
     />
   </div>
 </template>
@@ -11,6 +13,9 @@
 <script setup lang="ts">
 import ImageSelectArea from '../lib'
 
+const saveDataHandler = (data) => {
+  console.log('Save data handler : ', data)
+}
 </script>
 
 <style scoped>
