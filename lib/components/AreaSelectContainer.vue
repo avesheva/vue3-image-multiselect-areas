@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import CanvasApiClass from './utils/CanvasApiClass'
-import SelectedAreaBlock from './components/SelectedAreaBlock.vue'
+import CanvasApiClass from '../utils/CanvasApiClass'
+import SelectedAreaBlock from './SelectedAreaBlock.vue'
+import { IAreaData } from '../types'
 
 export interface IProps {
   id?: string,
@@ -10,6 +11,7 @@ export interface IProps {
   borderWidth?: number,
   borderColor?: string,
   imageUrl: string,
+  initAreas?: IAreaData[]
 }
 
 export interface ISelectedAreaCoordinates {
@@ -28,9 +30,10 @@ const props = withDefaults(defineProps<IProps>(), {
   height: 400,
   borderWidth: 2,
   borderColor: 'black',
+  initAreas: () => [],
 })
 
-const areasList = ref<ISelectedAreaCoordinates[]>([])
+const areasList = ref<IAreaData[]>([ ...props.initAreas ])
 const resizingItemStartPos = {
   direction: '',
 }
@@ -40,7 +43,15 @@ let resizingAreaIndex: number | null = null
 const selectedHandler = (e: CustomEvent) => {
   if (!e.detail) return
 
-  areasList.value.push({ ...e.detail })
+  const areaItem = {
+    index: areasList.value.length,
+    lineWidth: props.borderWidth,
+    color: props.borderColor,
+    comment: '',
+    coordinates: { ...e.detail },
+  }
+
+  areasList.value.push(areaItem)
 }
 
 const areaDeleteHandler = (index: number) => {
@@ -68,24 +79,24 @@ const mouseMoveHandler = (e: MouseEvent) => {
     requestAnimationFrame(() => {
       if (movingAreaIndex === null) return
 
-      areasList.value[movingAreaIndex].x += e.movementX
-      areasList.value[movingAreaIndex].y += e.movementY
+      areasList.value[movingAreaIndex].coordinates.x += e.movementX
+      areasList.value[movingAreaIndex].coordinates.y += e.movementY
     })
   } else if (resizingAreaIndex !== null) {
     switch (resizingItemStartPos.direction) {
       case 'left':
-        areasList.value[resizingAreaIndex].x += e.movementX
-        areasList.value[resizingAreaIndex].width -= e.movementX
+        areasList.value[resizingAreaIndex].coordinates.x += e.movementX
+        areasList.value[resizingAreaIndex].coordinates.width -= e.movementX
         break
       case 'right':
-        areasList.value[resizingAreaIndex].width += e.movementX
+        areasList.value[resizingAreaIndex].coordinates.width += e.movementX
         break
       case 'top':
-        areasList.value[resizingAreaIndex].y += e.movementY
-        areasList.value[resizingAreaIndex].height -= e.movementY
+        areasList.value[resizingAreaIndex].coordinates.y += e.movementY
+        areasList.value[resizingAreaIndex].coordinates.height -= e.movementY
         break
       case 'down':
-        areasList.value[resizingAreaIndex].height += e.movementY
+        areasList.value[resizingAreaIndex].coordinates.height += e.movementY
     }
   }
 }
@@ -119,16 +130,13 @@ onMounted(() => {
     />
 
     <selected-area-block
-      v-for="(coordinates, i) of areasList"
+      v-for="(item, i) of areasList"
       :key="i"
-      :index="i"
-      :coordinates="coordinates"
-      :border-color="borderColor"
-      :border-width="borderWidth"
+      :area-data="item"
       @mousedown="mouseDownHandler"
       @mouseup="mouseUpHandler"
       @delete="areaDeleteHandler"
-      @save-data="(data) => $emit('save-data', data)"
+      @save-data="(data: IAreaData) => $emit('save-data', data)"
     />
   </div>
 </template>

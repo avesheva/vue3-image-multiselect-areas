@@ -2,29 +2,29 @@
   <div
     :style="`
       position: absolute;
-      width: ${ coordinates.width }px;
-      height: ${ coordinates.height }px;
-      top: ${ coordinates.y }px;
-      left: ${ coordinates.x }px;
+      width: ${ areaData.coordinates.width }px;
+      height: ${ areaData.coordinates.height }px;
+      top: ${ areaData.coordinates.y }px;
+      left: ${ areaData.coordinates.x }px;
     `"
   >
     <!-- Top border -->
     <div
-      :style="`height: ${ borderWidth }px; background: ${ borderColor }; cursor: ns-resize; top: 0`"
+      :style="`height: ${ areaData.lineWidth }px; background: ${ areaData.color }; cursor: ns-resize; top: 0`"
       @mousedown="(e) => {
         e.stopPropagation()
-        $emit('mousedown', e, index, 'resize', 'top')
+        $emit('mousedown', e, areaData.index, 'resize', 'top')
       }"
       @mouseup="(e) => {
         e.stopPropagation()
-        $emit('mouseup', index, 'resize')
+        $emit('mouseup', areaData.index, 'resize')
       }"
     />
     <!-- Left border -->
     <div
       :style="`
-        width: ${ borderWidth }px;
-        background: ${ borderColor };
+        width: ${ areaData.lineWidth }px;
+        background: ${ areaData.color };
         height: 100%;
         cursor: ew-resize;
         position: absolute;
@@ -33,11 +33,11 @@
       `"
       @mousedown="(e) => {
         e.stopPropagation()
-        $emit('mousedown', e, index, 'resize', 'left')
+        $emit('mousedown', e, areaData.index, 'resize', 'left')
       }"
       @mouseup="(e) => {
         e.stopPropagation()
-        $emit('mouseup', index, 'resize')
+        $emit('mouseup', areaData.index, 'resize')
       }"
     />
 
@@ -54,18 +54,18 @@
         if (e.button === 2) return // If mouse right button clicked
 
         cursor = 'grabbing'
-        $emit('mousedown', e, index, 'dragging')
+        $emit('mousedown', e, areaData.index, 'dragging')
       }"
       @mouseup="(e) => {
         e.stopPropagation()
         cursor = 'grab'
-        $emit('mouseup', index, 'dragging')
+        $emit('mouseup', areaData.index, 'dragging')
       }"
       @contextmenu="(e) => { e.stopPropagation() }"
     >
       <button
         style="position: absolute; right: 0;"
-        @click="$emit('delete', index)"
+        @click="$emit('delete', areaData.index)"
       >
         &times;
       </button>
@@ -84,15 +84,15 @@
         @input="commentText = $event.currentTarget.textContent"
         @blur="commentFieldBlurHandler"
       >
-        {{ comment }}
+        {{ areaData.comment }}
       </div>
     </div>
     <!-- Right border -->
     <div
       :style="`
-        width: ${ borderWidth }px;
+        width: ${ areaData.lineWidth }px;
         height: 100%;
-        background: ${ borderColor };
+        background: ${ areaData.color };
         cursor: ew-resize;
         position: absolute;
         right: 0;
@@ -100,30 +100,30 @@
       `"
       @mousedown="(e) => {
         e.stopPropagation()
-        $emit('mousedown', e, index, 'resize', 'right')
+        $emit('mousedown', e, areaData.index, 'resize', 'right')
       }"
       @mouseup="(e) => {
         e.stopPropagation()
-        $emit('mouseup', index, 'resize')
+        $emit('mouseup', areaData.index, 'resize')
       }"
     />
     <!-- Bottom border -->
     <div
       :style="`
         width: 100%;
-        height: ${ borderWidth }px;
-        background: ${ borderColor };
+        height: ${ areaData.lineWidth }px;
+        background: ${ areaData.color };
         cursor: ns-resize;
         position: absolute;
         bottom: 0;
       `"
       @mousedown="(e) => {
         e.stopPropagation()
-        $emit('mousedown', e, index, 'resize', 'down')
+        $emit('mousedown', e, areaData.index, 'resize', 'down')
       }"
       @mouseup="(e) => {
         e.stopPropagation()
-        $emit('mouseup', index, 'resize')
+        $emit('mouseup', areaData.index, 'resize')
       }"
     />
   </div>
@@ -131,18 +131,10 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { IAreaData } from '../types'
 
 const props = defineProps<{
-  index: number,
-  borderWidth: number,
-  borderColor: string,
-  coordinates: {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-  },
-  comment?: string
+  areaData: IAreaData
 }>()
 const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'comment-update', 'save-data'])
 
@@ -151,11 +143,8 @@ let commentText = '' // eslint-disable-line
 
 const commentFieldBlurHandler = () => {
   const data = {
-    index: props.index,
-    coordinates: props.coordinates,
+    ...props.areaData,
     comment: commentText,
-    lineWidth: props.borderWidth,
-    color: props.borderColor,
   }
 
   emit('save-data', data)
