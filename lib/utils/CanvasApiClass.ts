@@ -39,6 +39,13 @@ export default class CanvasApiClass {
     this.ctx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height)
     this.ctx.strokeStyle = this.lineColor
     this.ctx.lineWidth = this.lineWidth
+
+    this.drawnRectangle = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+    }
   }
 
   private mouseDownHandler = (e: MouseEvent) => {
@@ -78,9 +85,11 @@ export default class CanvasApiClass {
       this.isDrawing = false
       this.canvasElement.style.cursor = 'default'
 
-      this.canvasElement.dispatchEvent(
-        new CustomEvent('area-selected', { detail: this.drawnRectangle }),
-      )
+      if (this.drawnRectangle.width > 0 && this.drawnRectangle.height > 0) {
+        this.canvasElement.dispatchEvent(
+          new CustomEvent('area-selected', { detail: this.drawnRectangle }),
+        )
+      }
 
       this.clearOverlay()
     }
