@@ -58,6 +58,13 @@ export default class CanvasApiClass {
 
   private mouseMoveHandler = (e: MouseEvent) => {
     if (this.isDrawing) {
+      /*
+        It seems like in firefox "e.offsetX" "e.offsetY" in requestAnimationFrame becomes "0"
+        Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1707277
+      */
+      const offsetX = e.offsetX
+      const offsetY = e.offsetY
+
       requestAnimationFrame(() => {
         if (!this.ctx) return
 
@@ -65,8 +72,8 @@ export default class CanvasApiClass {
 
         this.drawnRectangle.x = this.startX
         this.drawnRectangle.y = this.startY
-        this.drawnRectangle.width = e.offsetX - this.startX
-        this.drawnRectangle.height = e.offsetY - this.startY
+        this.drawnRectangle.width = offsetX - this.startX
+        this.drawnRectangle.height = offsetY - this.startY
 
         this.ctx.beginPath()
         this.ctx.rect(
