@@ -101,4 +101,8 @@ export default class CanvasApiClass {
       this.clearOverlay()
     }
   }
+
+  public setLineColor = (color: string) => {
+    this.lineColor = color
+  }
 }
