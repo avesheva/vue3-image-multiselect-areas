@@ -27,6 +27,7 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 
 const areasList = ref<IAreaData[]>([ ...props.initAreas ])
+const activeAreaIndex = ref<number | null>(null)
 const resizingItemStartPos = {
   direction: '',
 }
@@ -53,6 +54,8 @@ const areaDeleteHandler = (index: number) => {
 }
 
 const mouseDownHandler = (e: MouseEvent, index: number, operation: OperationType, direction: DirectionType) => {
+  activeAreaIndex.value = index
+
   switch (operation) {
     case 'dragging':
       movingAreaIndex = index
@@ -96,10 +99,18 @@ const mouseMoveHandler = (e: MouseEvent) => {
 }
 
 watch(() => props.borderColor, (value: string) => {
+  if (activeAreaIndex.value !== null) {
+    const a = areasList.value[activeAreaIndex.value]
+    a.color = value
+  }
   canvasApiObj?.setLineColor(value)
 })
 
 watch(() => props.borderWidth, (value: number) => {
+  if (activeAreaIndex.value !== null) {
+    const a = areasList.value[activeAreaIndex.value]
+    a.lineWidth = value
+  }
   canvasApiObj?.setLineWidth(value)
 })
 
@@ -123,6 +134,7 @@ onMounted(() => {
       background-size: contain;
     `"
     @mousemove="mouseMoveHandler"
+    @mousedown="activeAreaIndex = null"
   >
     <canvas
       :id="id"
@@ -135,6 +147,7 @@ onMounted(() => {
       v-for="(item, i) of areasList"
       :key="i"
       :area-data="item"
+      :is-active="activeAreaIndex === i"
       @mousedown="mouseDownHandler"
       @mouseup="mouseUpHandler"
       @delete="areaDeleteHandler"

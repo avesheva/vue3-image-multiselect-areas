@@ -7,6 +7,7 @@
       top: ${ areaData.coordinates.y }px;
       left: ${ areaData.coordinates.x }px;
     `"
+    :class="{ active: isActive }"
   >
     <!-- Top border -->
     <div
@@ -135,6 +136,7 @@ import { IAreaData } from '../types'
 
 const props = defineProps<{
   areaData: IAreaData
+  isActive: boolean,
 }>()
 const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'save-data'])
 
