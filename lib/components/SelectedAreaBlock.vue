@@ -136,7 +136,7 @@ import { IAreaData } from '../types'
 const props = defineProps<{
   areaData: IAreaData
 }>()
-const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'comment-update', 'save-data'])
+const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'save-data'])
 
 const cursor = ref<string>('grab')
 let commentText = '' // eslint-disable-line

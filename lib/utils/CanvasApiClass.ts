@@ -105,4 +105,8 @@ export default class CanvasApiClass {
   public setLineColor = (color: string) => {
     this.lineColor = color
   }
+
+  public setLineWidth = (width: number) => {
+    this.lineWidth = width
+  }
 }

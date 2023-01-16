@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import CanvasApiClass from '../utils/CanvasApiClass'
 import SelectedAreaBlock from './SelectedAreaBlock.vue'
 import { IAreaData } from '../types'
@@ -12,13 +12,6 @@ export interface IProps {
   borderColor?: string,
   imageUrl: string,
   initAreas?: IAreaData[]
-}
-
-export interface ISelectedAreaCoordinates {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
 }
 
 export type OperationType = 'dragging' | 'resize'
@@ -37,6 +30,7 @@ const areasList = ref<IAreaData[]>([ ...props.initAreas ])
 const resizingItemStartPos = {
   direction: '',
 }
+let canvasApiObj: CanvasApiClass | null = null
 let movingAreaIndex: number | null = null
 let resizingAreaIndex: number | null = null
 
@@ -101,11 +95,19 @@ const mouseMoveHandler = (e: MouseEvent) => {
   }
 }
 
+watch(() => props.borderColor, (value: string) => {
+  canvasApiObj?.setLineColor(value)
+})
+
+watch(() => props.borderWidth, (value: number) => {
+  canvasApiObj?.setLineWidth(value)
+})
+
 onMounted(() => {
   const canvasElement = document.getElementById(props.id) as HTMLCanvasElement
 
   if (canvasElement) {
-    new CanvasApiClass(canvasElement, props.borderWidth, props.borderColor)
+    canvasApiObj = new CanvasApiClass(canvasElement, props.borderWidth, props.borderColor)
   }
 })
 
