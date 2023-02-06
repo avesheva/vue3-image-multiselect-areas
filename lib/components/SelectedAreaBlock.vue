@@ -65,7 +65,7 @@
       @contextmenu="(e) => { e.stopPropagation() }"
     >
       <button
-        style="position: absolute; right: 0;"
+        :style="`position: absolute; right: ${ areaData?.lineWidth }px;`"
         @click="$emit('delete', areaData.index)"
       >
         &times;
