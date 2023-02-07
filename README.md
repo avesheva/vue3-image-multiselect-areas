@@ -23,8 +23,8 @@ import ImageSelectArea from 'vue3-image-multiselect-areas';
   image-url="https://yourimageurl.jpg"
   :width="900"
   :height="700"
-  :border-color="color"
-  :border-width="lineWidth"
+  border-color="#0FB839"
+  border-width="2"
   @save-data="saveDataHandler"
 />
 ```
