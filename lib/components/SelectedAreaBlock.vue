@@ -11,7 +11,7 @@
   >
     <!-- Top border -->
     <div
-      :style="`height: ${ areaData.lineWidth }px; background: ${ areaData.color }; cursor: ns-resize; top: 0`"
+      :style="`height: ${ lineWidth }px; background: ${ areaData.color }; cursor: ns-resize; top: 0`"
       @mousedown="(e) => {
         e.stopPropagation()
         $emit('mousedown', e, areaData.index, 'resize', 'top')
@@ -24,7 +24,7 @@
     <!-- Left border -->
     <div
       :style="`
-        width: ${ areaData.lineWidth }px;
+        width: ${ lineWidth }px;
         background: ${ areaData.color };
         height: 100%;
         cursor: ew-resize;
@@ -65,7 +65,7 @@
       @contextmenu="(e) => { e.stopPropagation() }"
     >
       <button
-        :style="`position: absolute; right: ${ areaData?.lineWidth }px;`"
+        :style="`position: absolute; right: ${ lineWidth }px;`"
         @click="$emit('delete', areaData.index)"
       >
         &times;
@@ -91,7 +91,7 @@
     <!-- Right border -->
     <div
       :style="`
-        width: ${ areaData.lineWidth }px;
+        width: ${ lineWidth }px;
         height: 100%;
         background: ${ areaData.color };
         cursor: ew-resize;
@@ -112,7 +112,7 @@
     <div
       :style="`
         width: 100%;
-        height: ${ areaData.lineWidth }px;
+        height: ${ lineWidth }px;
         background: ${ areaData.color };
         cursor: ns-resize;
         position: absolute;
@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { IAreaData } from '../types'
 
 const props = defineProps<{
@@ -141,6 +141,7 @@ const props = defineProps<{
 const emit = defineEmits(['delete', 'mousedown', 'mouseup', 'save-data'])
 
 const cursor = ref<string>('grab')
+const lineWidth = computed(() => (props.areaData.lineWidth > 0 ? props.areaData.lineWidth : 1))
 let commentText = '' // eslint-disable-line
 
 const commentFieldBlurHandler = () => {
