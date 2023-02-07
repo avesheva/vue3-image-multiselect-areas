@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<IProps>(), {
   width: 500,
   height: 400,
   borderWidth: 2,
-  borderColor: 'black',
+  borderColor: '#000000',
   initAreas: () => [],
 })
 

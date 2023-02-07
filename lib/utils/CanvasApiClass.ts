@@ -9,7 +9,7 @@ export default class CanvasApiClass {
 
   private startY = 0
 
-  private lineColor = 'black'
+  private lineColor = '#000000'
 
   private lineWidth = 2
 
