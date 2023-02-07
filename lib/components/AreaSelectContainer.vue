@@ -18,13 +18,14 @@ export type OperationType = 'dragging' | 'resize'
 export type DirectionType = 'top' | 'down' | 'left' | 'right'
 
 const props = withDefaults(defineProps<IProps>(), {
-  id: 'vueCanvasRedactor',
+  id: 'imageSelectArea',
   width: 500,
   height: 400,
-  borderWidth: 2,
+  borderWidth: 1,
   borderColor: '#000000',
   initAreas: () => [],
 })
+const emit = defineEmits(['save-data'])
 
 const areasList = ref<IAreaData[]>([ ...props.initAreas ])
 const activeAreaIndex = ref<number | null>(null)
@@ -66,7 +67,11 @@ const mouseDownHandler = (e: MouseEvent, index: number, operation: OperationType
   }
 }
 
-const mouseUpHandler = () => {
+const mouseUpHandler = (index: number) => {
+  if (movingAreaIndex !== null || resizingAreaIndex !== null) {
+    emit('save-data', areasList.value[index])
+  }
+
   movingAreaIndex = null
   resizingAreaIndex = null
 }
