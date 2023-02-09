@@ -35,6 +35,7 @@ const resizingItemStartPos = {
 let canvasApiObj: CanvasApiClass | null = null
 let movingAreaIndex: number | null = null
 let resizingAreaIndex: number | null = null
+let workingAreaCoordinates: DOMRect
 
 const selectedHandler = (e: CustomEvent) => {
   if (!e.detail) return
@@ -76,29 +77,49 @@ const mouseUpHandler = (index: number) => {
   resizingAreaIndex = null
 }
 
+const checkIsInWorkingArea = ({ coordinates }: IAreaData, { movementX, movementY }: MouseEvent) => {
+  return  coordinates.x + movementX > 0
+      && coordinates.y + movementY > 0
+      && (coordinates.y + movementY + coordinates.height < workingAreaCoordinates.height)
+      && (coordinates.x + movementX + coordinates.width < workingAreaCoordinates.width)
+}
+
 const mouseMoveHandler = (e: MouseEvent) => {
   if (movingAreaIndex !== null) {
     requestAnimationFrame(() => {
       if (movingAreaIndex === null) return
 
-      areasList.value[movingAreaIndex].coordinates.x += e.movementX
-      areasList.value[movingAreaIndex].coordinates.y += e.movementY
+      const inArea = checkIsInWorkingArea({ ...areasList.value[movingAreaIndex] }, e)
+
+      if (inArea) {
+        areasList.value[movingAreaIndex].coordinates.x += e.movementX
+        areasList.value[movingAreaIndex].coordinates.y += e.movementY
+      } else  {
+        mouseUpHandler(movingAreaIndex)
+      }
     })
   } else if (resizingAreaIndex !== null) {
-    switch (resizingItemStartPos.direction) {
-      case 'left':
-        areasList.value[resizingAreaIndex].coordinates.x += e.movementX
-        areasList.value[resizingAreaIndex].coordinates.width -= e.movementX
-        break
-      case 'right':
-        areasList.value[resizingAreaIndex].coordinates.width += e.movementX
-        break
-      case 'top':
-        areasList.value[resizingAreaIndex].coordinates.y += e.movementY
-        areasList.value[resizingAreaIndex].coordinates.height -= e.movementY
-        break
-      case 'down':
-        areasList.value[resizingAreaIndex].coordinates.height += e.movementY
+
+    const inArea = checkIsInWorkingArea({ ...areasList.value[resizingAreaIndex] }, e)
+
+    if (inArea) {
+      switch (resizingItemStartPos.direction) {
+        case 'left':
+          areasList.value[resizingAreaIndex].coordinates.x += e.movementX
+          areasList.value[resizingAreaIndex].coordinates.width -= e.movementX
+          break
+        case 'right':
+          areasList.value[resizingAreaIndex].coordinates.width += e.movementX
+          break
+        case 'top':
+          areasList.value[resizingAreaIndex].coordinates.y += e.movementY
+          areasList.value[resizingAreaIndex].coordinates.height -= e.movementY
+          break
+        case 'down':
+          areasList.value[resizingAreaIndex].coordinates.height += e.movementY
+      }
+    } else {
+      mouseUpHandler(resizingAreaIndex)
     }
   }
 }
@@ -123,6 +144,7 @@ onMounted(() => {
   const canvasElement = document.getElementById(props.id) as HTMLCanvasElement
 
   if (canvasElement) {
+    workingAreaCoordinates = canvasElement.getBoundingClientRect()
     canvasApiObj = new CanvasApiClass(canvasElement, props.borderWidth, props.borderColor)
   }
 })
