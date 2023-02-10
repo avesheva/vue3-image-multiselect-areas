@@ -68,8 +68,8 @@ const mouseDownHandler = (e: MouseEvent, index: number, operation: OperationType
   }
 }
 
-const mouseUpHandler = (index: number) => {
-  if (movingAreaIndex !== null || resizingAreaIndex !== null) {
+const mouseUpHandler = (index?: number) => {
+  if (index !== undefined && (movingAreaIndex !== null || resizingAreaIndex !== null)) {
     emit('save-data', areasList.value[index])
   }
 
@@ -99,27 +99,20 @@ const mouseMoveHandler = (e: MouseEvent) => {
       }
     })
   } else if (resizingAreaIndex !== null) {
-
-    const inArea = checkIsInWorkingArea({ ...areasList.value[resizingAreaIndex] }, e)
-
-    if (inArea) {
-      switch (resizingItemStartPos.direction) {
-        case 'left':
-          areasList.value[resizingAreaIndex].coordinates.x += e.movementX
-          areasList.value[resizingAreaIndex].coordinates.width -= e.movementX
-          break
-        case 'right':
-          areasList.value[resizingAreaIndex].coordinates.width += e.movementX
-          break
-        case 'top':
-          areasList.value[resizingAreaIndex].coordinates.y += e.movementY
-          areasList.value[resizingAreaIndex].coordinates.height -= e.movementY
-          break
-        case 'down':
-          areasList.value[resizingAreaIndex].coordinates.height += e.movementY
-      }
-    } else {
-      mouseUpHandler(resizingAreaIndex)
+    switch (resizingItemStartPos.direction) {
+      case 'left':
+        areasList.value[resizingAreaIndex].coordinates.x += e.movementX
+        areasList.value[resizingAreaIndex].coordinates.width -= e.movementX
+        break
+      case 'right':
+        areasList.value[resizingAreaIndex].coordinates.width += e.movementX
+        break
+      case 'top':
+        areasList.value[resizingAreaIndex].coordinates.y += e.movementY
+        areasList.value[resizingAreaIndex].coordinates.height -= e.movementY
+        break
+      case 'down':
+        areasList.value[resizingAreaIndex].coordinates.height += e.movementY
     }
   }
 }
@@ -162,6 +155,7 @@ onMounted(() => {
     `"
     @mousemove="mouseMoveHandler"
     @mousedown="activeAreaIndex = null"
+    @mouseleave="mouseUpHandler"
   >
     <canvas
       :id="id"

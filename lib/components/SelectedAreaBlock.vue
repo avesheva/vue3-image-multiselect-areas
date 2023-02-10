@@ -47,6 +47,7 @@
         width: 100%;
         height: 100%;
         cursor: ${cursor};
+        user-select: none;
        `
       "
       class="selected-area"
