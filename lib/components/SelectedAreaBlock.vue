@@ -85,7 +85,7 @@
           text-align: left;
         "
         autofocus
-        @input="commentText = $event.currentTarget.textContent"
+        @input="commentInputHandler"
         @blur="commentFieldBlurHandler"
       >
         {{ areaData.comment }}
@@ -154,6 +154,9 @@ const commentFieldBlurHandler = () => {
   }
 
   emit('save-data', data)
+}
+const commentInputHandler = (e: Event) => {
+  commentText = (e.currentTarget as HTMLElement)?.textContent || ''
 }
 </script>
 

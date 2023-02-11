@@ -155,7 +155,7 @@ onMounted(() => {
     `"
     @mousemove="mouseMoveHandler"
     @mousedown="activeAreaIndex = null"
-    @mouseleave="mouseUpHandler"
+    @mouseleave="() => { mouseUpHandler() }"
   >
     <canvas
       :id="id"
