@@ -7,7 +7,8 @@
       top: ${ areaData.coordinates.y }px;
       left: ${ areaData.coordinates.x }px;
     `"
-    :class="{ active: isActive }"
+    class="selected-area"
+    :class="{ 'active-area': isActive }"
   >
     <!-- Top border -->
     <div
@@ -50,7 +51,6 @@
         user-select: none;
        `
       "
-      class="selected-area"
       @mousedown="(e) => {
         e.stopPropagation()
         if (e.button === 2) return // If mouse right button clicked
@@ -68,11 +68,13 @@
       <button
         :style="`position: absolute; right: ${ lineWidth }px;`"
         @click="$emit('delete', areaData.index)"
+        class="delete-button"
       >
         &times;
       </button>
       <div
         contenteditable
+        class="area-comment"
         style="
           position: absolute;
           top: calc(100% + 5px);
