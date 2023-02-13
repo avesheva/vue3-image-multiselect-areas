@@ -4,6 +4,9 @@ Vue 3 typescript lib, with ability to select area on the image and leave comment
 
 [screencast-localhost_5173-2023.01.17-22_55_14.webm](https://user-images.githubusercontent.com/12416010/213011116-b1cd6685-4596-4137-b8b5-945b098143ac.webm)
 
+## Demo
+[**Live Demo**](https://avesheva.github.io/vue3-image-multiselect-areas/).
+
 ## Installation
 ```shell
 # with npm
@@ -48,7 +51,7 @@ interface IAreaData {
 ## Props
 | NAME              | TYPE         | DEFAULT                  | DESCRIPTION                |
 |-------------------|--------------|--------------------------|----------------------------|
-| imageUrl          | String       |              -           | Image url. Required        |
+| imageUrl?         | String       |              -           | Image url                  |
 | id?               | String       | imageSelectArea          | Component id               |
 | width? (px)       | Number       | 500                      | Component width            |
 | height? (px)      | Number       | 400                      | Component height           |
@@ -61,3 +64,13 @@ interface IAreaData {
 | NAME      | PARAMS TYPE | DESCRIPTION                                                        |
 |-----------|-------------|--------------------------------------------------------------------|
 | save-data | IAreaData[] | Fires after area resizing, dragging or comments field focus losing |
+
+## Styling
+Styling on you. Here classes you can use for that: 
+
+| NAME          | DESCRIPTION                            |
+|---------------|----------------------------------------|
+| selected-area | Selected area wrapper class            | 
+| active-area   | Added to selected area when it focused |
+| area-comment  | Comment text block class               | 
+| delete-button | Delete area button class               |  
