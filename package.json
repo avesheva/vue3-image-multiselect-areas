@@ -1,6 +1,6 @@
 {
   "name": "vue3-image-multiselect-areas",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue 3 typescript lib, with ability to select area on the image and leave comments.",
   "homepage": "https://github.com/avesheva/vue3-image-multiselect-areas",
   "author": "Shevchenko Andrii <shevchenkoandrii.dev@gmail.com>",
@@ -10,7 +10,9 @@
     "vue3",
     "javascript",
     "canvas",
-    "typescript"
+    "typescript",
+    "image select area",
+    "image comments"
   ],
   "private": false,
   "main": "dist/vue-image-multiselect-areas.umd.js",
